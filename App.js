@@ -31,11 +31,8 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
+      <Stack.Navigator
+      screenOptions={{
             title:'carters home',
             headerStyle: {
               backgroundColor: 'blue',},
@@ -43,8 +40,11 @@ function App() {
               headerTintStyle: {
                 fontWeight: 'bold',
               },
-            
           }}
+          >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
         />
         <Stack.Screen
           name="Profile"
