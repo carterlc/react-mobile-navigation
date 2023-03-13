@@ -35,7 +35,16 @@ function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'My home' }}
+          options={{
+            title:'carters home',
+            headerStyle: {
+              backgroundColor: 'blue',},
+              headerTintColor: 'green',
+              headerTintStyle: {
+                fontWeight: 'bold',
+              },
+            
+          }}
         />
         <Stack.Screen
           name="Profile"
