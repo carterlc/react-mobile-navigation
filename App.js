@@ -54,7 +54,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Overview' }} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} initialParams={{ itemId: 42 }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
