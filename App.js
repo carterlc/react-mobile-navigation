@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -28,23 +28,36 @@ function ProfileScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
+
+function LogoTitle() {
+  return (
+    <Image
+    style={{ width: 50, height: 50 }}
+    source={{ uri:'https://reactnative.dev/img/tiny_logo.png'}}
+  />
+  );
+}
+
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      screenOptions={{
-            title:'carters home',
-            headerStyle: {
-              backgroundColor: 'blue',},
-              headerTintColor: 'green',
-              headerTintStyle: {
-                fontWeight: 'bold',
-              },
-          }}
-          >
+        screenOptions={{
+          title: 'carters home',
+          headerStyle: {
+            backgroundColor: 'blue',
+          },
+          headerTintColor: 'green',
+          headerTintStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      >
         <Stack.Screen
           name="Home"
           component={HomeScreen}
+          options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+
         />
         <Stack.Screen
           name="Profile"
