@@ -1,90 +1,66 @@
 import * as React from 'react';
-import { View, Text, Button, Image } from 'react-native';
+import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-function HomeScreen({ navigation }) {
-
-const [count, setCount] = React.useState(0);
-
-React.useEffect(() => {
-  // Use `setOptions` to update the button that we previously specified
-  // Now the button includes an `onPress` handler to update the count
-  navigation.setOptions({
-    headerRight: () => (
-      <Button onPress={() => setCount((c) => c + 1)} title="Update count" />
-    ),
-  });
-}, [navigation, setCount]);
-
+function Feed({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Text>{count}</Text>
+      <Text>Feed Screen</Text>
       <Button
-        title="Go to Profile"
-        onPress={() =>
-          navigation.navigate('Profile', { name: 'Custom profile header' })
-        }
+        onPress={() => navigation.navigate('Messages')}
+        title="Go to Messages"
       />
     </View>
   );
 }
 
-function ProfileScreen({ navigation }) {
+function Messages({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.getParent().addListener('tabPress', (e) => {
+      // Do something
+      alert('Tab pressed!');
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Profile screen</Text>
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <Text>Messages Screen</Text>
+      <Button onPress={() => navigation.navigate('Feed')} title="Go to Feed" />
     </View>
   );
 }
 
+function Profile() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Profile Screen</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-
-function LogoTitle() {
+function Home() {
   return (
-    <Image
-      style={{ width: 50, height: 50 }}
-      source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-    />
+    <Stack.Navigator>
+      <Stack.Screen name="Feed" component={Feed} />
+      <Stack.Screen name="Messages" component={Messages} />
+    </Stack.Navigator>
   );
 }
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          title: 'carters home',
-          headerStyle: {
-            backgroundColor: 'blue',
-          },
-          headerTintColor: 'green',
-          headerTintStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      >
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerTitle: (props) => <LogoTitle {...props} />,
-            // Add a placeholder button without the `onPress` to avoid flicker
-            headerRight: () => (
-              <Button title="Update count" />
-            ),
-          }}
-
-        />
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={({ route }) => ({ title: route.params.name })}
-        />
-      </Stack.Navigator>
+      <Tab.Navigator id="RootNavigator">
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Profile" component={Profile} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
