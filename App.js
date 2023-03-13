@@ -32,9 +32,9 @@ const Stack = createNativeStackNavigator();
 function LogoTitle() {
   return (
     <Image
-    style={{ width: 50, height: 50 }}
-    source={{ uri:'https://reactnative.dev/img/tiny_logo.png'}}
-  />
+      style={{ width: 50, height: 50 }}
+      source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+    />
   );
 }
 
@@ -56,7 +56,16 @@ function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+          options={{
+            headerTitle: (props) => <LogoTitle {...props} />,
+            headerRight: () => (
+              <Button
+                onPress={() => alert('This is a button!')}
+                title="Info"
+                color="#00cc00"
+              />
+            ),
+           }}
 
         />
         <Stack.Screen
