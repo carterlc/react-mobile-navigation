@@ -4,9 +4,23 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 function HomeScreen({ navigation }) {
+
+const [count, setCount] = React.useState(0);
+
+React.useEffect(() => {
+  // Use `setOptions` to update the button that we previously specified
+  // Now the button includes an `onPress` handler to update the count
+  navigation.setOptions({
+    headerRight: () => (
+      <Button onPress={() => setCount((c) => c + 1)} title="Update count" />
+    ),
+  });
+}, [navigation, setCount]);
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
+      <Text>{count}</Text>
       <Button
         title="Go to Profile"
         onPress={() =>
@@ -58,14 +72,11 @@ function App() {
           component={HomeScreen}
           options={{
             headerTitle: (props) => <LogoTitle {...props} />,
+            // Add a placeholder button without the `onPress` to avoid flicker
             headerRight: () => (
-              <Button
-                onPress={() => alert('This is a button!')}
-                title="Info"
-                color="#00cc00"
-              />
+              <Button title="Update count" />
             ),
-           }}
+          }}
 
         />
         <Stack.Screen
