@@ -6,21 +6,31 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 function Feed({ navigation }) {
   return (
+    
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Feed Screen</Text>
       <Button
         onPress={() => navigation.navigate('Messages')}
         title="Go to Messages"
       />
+      <Button
+        onPress={() => navigation.navigate('Home', {
+          screen:'Messages',
+          params: {user:'carter'}
+        })}
+        title="Go to Messages"
+      />
     </View>
   );
 }
 
-function Messages({ navigation }) {
+function Messages({ route, navigation }) {
+  const { user } = route.params;
   React.useEffect(() => {
     const unsubscribe = navigation.getParent().addListener('tabPress', (e) => {
       // Do something
       alert('Tab pressed!');
+      <Text>userParam: {JSON.stringify(user)}</Text>
     });
 
     return unsubscribe;
@@ -57,7 +67,7 @@ function Home() {
 function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator id="RootNavigator">
+      <Tab.Navigator id="RootNavigator" initialRouteName="Messages">
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
