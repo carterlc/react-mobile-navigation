@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, BlurView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -63,18 +63,28 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}
-      tabBarOptions={{style: {
-        position:'absolute',
-        bottom: 25,
-        left: 20,
-        right: 20,
-        elevation: 0,
-        backgroundColor: 'orange',
-        borderRadius: 15,
-        height: 90,
-      }}}>
-        <Tab.Screen name="Home" component={HomeStackScreen} options={{ tabBarBadge: 3 }}/>
+      <Tab.Navigator screenOptions={{ 
+        headerShown: false,
+        tabBarStyle:{
+          backgroundColor:'purple',
+          height:50,
+          activeTintColor: 'pink',
+        },
+        tabBarItemStyle:{
+          backgroundColor:'#B65FCF',
+          margin:5,
+          borderRadius:10,
+          activeTintColor: 'pink',
+        }
+    }}
+      TabBarOptions={{
+        activeTintColor: 'pink',
+      }}
+      renderLabel= {{
+        color: 'white',
+      }}
+      >
+        <Tab.Screen name="Home" component={HomeStackScreen} options={{ tabBarBadge: 3 }} />
         <Tab.Screen name="Settings" component={SettingsStackScreen} options={{ tabBarBadge: 999 }} />
       </Tab.Navigator>
     </NavigationContainer>
