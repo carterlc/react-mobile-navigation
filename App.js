@@ -2,63 +2,83 @@ import * as React from 'react';
 import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-function Home({ navigation }) {
+function SettingsScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button onPress={() => navigation.navigate('Help')} title="Go to Help" />
+      <Text>Settings Screen</Text>
       <Button
-        onPress={() => navigation.navigate('Profile')}
         title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
       />
     </View>
   );
 }
 
-function Help({ navigation }) {
+function ProfileScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Help Screen</Text>
-      <Button onPress={() => navigation.navigate('Home')} title="Go to Home" />
-      <Button onPress={() => navigation.navigate('Invite')} title="Invite" />
+      <Text>Profile Screen</Text>
+      <Button
+        title="Go to Settings"
+        onPress={() => navigation.navigate('Settings')}
+      />
     </View>
   );
 }
 
-function EmptyScreen() {
-  return <View />;
-}
-
-const Stack = createNativeStackNavigator();
-
-function App() {
-  const isLoggedIn = true;
-
+function HomeScreen({ navigation }) {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {isLoggedIn ? (
-          // Screens for logged in users
-          <Stack.Group>
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Profile" component={EmptyScreen} />
-          </Stack.Group>
-        ) : (
-          // Auth screens
-          <Stack.Group screenOptions={{ headerShown: true }}>
-            <Stack.Screen name="SignIn" component={EmptyScreen} />
-            <Stack.Screen name="SignUp" component={EmptyScreen} />
-          </Stack.Group>
-        )}
-        {/* Common modal screens */}
-        <Stack.Group screenOptions={{ presentation: 'modal' }}>
-          <Stack.Screen name="Help" component={Help} />
-          <Stack.Screen name="Invite" component={EmptyScreen} />
-        </Stack.Group>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
   );
 }
 
-export default App;
+function DetailsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Details Screen</Text>
+      <Button
+        title="Go to Details... again"
+        onPress={() => navigation.push('Details')}
+      />
+    </View>
+  );
+}
+const Tab = createBottomTabNavigator();
+const SettingsStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="First">
+          {() => (
+            <SettingsStack.Navigator>
+              <SettingsStack.Screen
+                name="Settings"
+                component={SettingsScreen}
+              />
+              <SettingsStack.Screen name="Profile" component={ProfileScreen} />
+            </SettingsStack.Navigator>
+          )}
+        </Tab.Screen>
+        <Tab.Screen name="Second">
+          {() => (
+            <HomeStack.Navigator>
+              <HomeStack.Screen name="Home" component={HomeScreen} />
+              <HomeStack.Screen name="Details" component={DetailsScreen} />
+            </HomeStack.Navigator>
+          )}
+        </Tab.Screen>
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
