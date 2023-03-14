@@ -63,9 +63,19 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Home" component={HomeStackScreen} />
-        <Tab.Screen name="Settings" component={SettingsStackScreen} />
+      <Tab.Navigator screenOptions={{ headerShown: false }}
+      tabBarOptions={{style: {
+        position:'absolute',
+        bottom: 25,
+        left: 20,
+        right: 20,
+        elevation: 0,
+        backgroundColor: 'orange',
+        borderRadius: 15,
+        height: 90,
+      }}}>
+        <Tab.Screen name="Home" component={HomeStackScreen} options={{ tabBarBadge: 3 }}/>
+        <Tab.Screen name="Settings" component={SettingsStackScreen} options={{ tabBarBadge: 999 }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
