@@ -4,52 +4,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-function Feed({ navigation }) {
-  return (
-    
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Feed Screen</Text>
-      <Button
-        onPress={() => navigation.navigate('Messages')}
-        title="Go to Messages"
-      />
-      <Button
-        onPress={() => navigation.navigate('Home', {
-          screen:'Messages',
-          params: {user:'carter'}
-        })}
-        title="Go to Messages"
-      />
-    </View>
-  );
-}
-
-function Messages({ route, navigation }) {
-  const { user } = route.params;
-  React.useEffect(() => {
-    const unsubscribe = navigation.getParent().addListener('tabPress', (e) => {
-      // Do something
-      alert('Tab pressed!');
-      <Text>userParam: {JSON.stringify(user)}</Text>
-    });
-
-    return unsubscribe;
-  }, []);
-
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Messages Screen</Text>
-      <Button onPress={() => navigation.navigate('Feed')} title="Go to Feed" />
-    </View>
-  );
-}
-
-function Profile() {
+function Profile({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Profile Screen</Text>
+      <Button
+        onPress={() => navigation.navigate('EditPost')}
+        title="Go to Edit Post"
+      />
     </View>
   );
+}
+
+function EmptyScreen() {
+  return <View />;
 }
 
 const Tab = createBottomTabNavigator();
@@ -57,20 +25,24 @@ const Stack = createNativeStackNavigator();
 
 function Home() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Feed" component={Feed} />
-      <Stack.Screen name="Messages" component={Messages} />
-    </Stack.Navigator>
+    <Tab.Navigator>
+      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Settings" component={EmptyScreen} />
+    </Tab.Navigator>
   );
 }
 
 function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator id="RootNavigator" initialRouteName="Messages">
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Profile" component={Profile} />
-      </Tab.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="EditPost" component={EmptyScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
